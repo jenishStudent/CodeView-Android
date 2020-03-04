@@ -26,47 +26,6 @@ class BidirectionalScrollView : HorizontalScrollView {
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                currentX = event.rawX.toInt()
-                currentY = event.rawY.toInt()
-                return super.dispatchTouchEvent(event)
-            }
-            MotionEvent.ACTION_MOVE -> {
-                val deltaX = Math.abs(currentX - event.rawX)
-                val deltaY = Math.abs(currentY - event.rawY)
-                scroll(event)
-
-                val movedOnDistance = dpToPx(context, 2)
-                if (deltaX > movedOnDistance || deltaY > movedOnDistance) {
-                    isMoved = true
-                }
-            }
-            MotionEvent.ACTION_UP -> {
-                if (!isMoved) {
-                    return super.dispatchTouchEvent(event)
-                }
-                isMoved = false
-            }
-            MotionEvent.ACTION_CANCEL -> {
-                isMoved = false
-            }
-        }
-        return true
-    }
-
-    private fun scroll(event: MotionEvent) {
-        val x2 = event.rawX.toInt()
-        val y2 = event.rawY.toInt()
-        val posX = currentX - x2
-        val posY = currentY - y2
-        scrollBy(posX, posY)
-
-        currentX = x2
-        currentY = y2
-    }
-
     override fun measureChild(child: View, parentWidthMeasureSpec: Int, parentHeightMeasureSpec: Int) {
         val zeroMeasureSpec = makeMeasureSpec(0)
         child.measure(zeroMeasureSpec, zeroMeasureSpec)
