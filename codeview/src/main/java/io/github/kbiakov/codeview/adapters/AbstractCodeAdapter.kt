@@ -167,22 +167,9 @@ abstract class AbstractCodeAdapter<T> : RecyclerView.Adapter<AbstractCodeAdapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val lineView = inflater.inflate(R.layout.item_code_line, parent, false)
-        lineView.setBackgroundColor(options.theme.bgContent.color())
-
-        val tvLineNum = lineView.findViewById(R.id.tv_line_num) as TextView
-        tvLineNum.typeface = options.font
-        tvLineNum.setTextColor(options.theme.numColor.color())
-        tvLineNum.setBackgroundColor(options.theme.bgNum.color())
-
-        val tvLineContent = lineView.findViewById(R.id.tv_line_content) as TextView
-        tvLineContent.typeface = options.font
 
         val isLine = viewType == ViewHolderType.Line.viewType
 
-        options.format.apply {
-            val height = if (isLine) lineHeight else borderHeight
-            lineView.layoutParams.height = dpToPx(context, height)
-        }
         return if (isLine)
             LineViewHolder(lineView).apply { setIsRecyclable(false) }
         else
@@ -194,9 +181,7 @@ abstract class AbstractCodeAdapter<T> : RecyclerView.Adapter<AbstractCodeAdapter
             val num = pos - LineStartIdx
             holder.mItem = lines[num]
 
-            bindClickListener(num, holder)
             setupContent(num, holder)
-            displayFooter(num, holder)
         }
     }
 
