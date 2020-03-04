@@ -126,7 +126,7 @@ class CodeView @JvmOverloads constructor(
      */
     fun setAdapter(adapter: AbstractCodeAdapter<*>) {
         vCodeList.adapter = adapter
-        highlight()
+        //highlight()
     }
 
     // - Options
